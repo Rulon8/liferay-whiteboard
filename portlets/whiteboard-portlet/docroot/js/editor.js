@@ -61,26 +61,26 @@ YUI.add('whiteboard', function (Y, NAME) {
                 
                 if (instance.get(SELECTED_SHAPE)){
                 	if (instance.get(SELECTED_SHAPE).type != EditorManager.CONSTANTS.TEXT){
-                		instance.get(SELECTED_SHAPE).stroke = e.color;
+                		instance.get(SELECTED_SHAPE).set('stroke', e.color);
                 	}
                 	else{
-                		instance.get(SELECTED_SHAPE).fill = e.color;
+                		instance.get(SELECTED_SHAPE).set('fill', e.color);
                 	}
                     instance.get(SELECTED_SHAPE).fire('modified');
                     instance.get(CANVAS).renderAll();
                 }
                 if (instance.get(CANVAS).isDrawingMode){
-            		instance.get(CANVAS).freeDrawingBrush.color = e.color;
+            		instance.get(CANVAS).freeDrawingBrush.set('fill', e.color);
             	}
             });
             
             var fillColorPicker = new Y.ColorPicker({container: this.get(CONTAINER).one('.color-picker.fill')});
             fillColorPicker.on('color-picker:change', function(e) {
                 EditorManager.CONSTANTS.RECTANGLE_STATE.fill = e.color;
-                EditorManager.CONSTANTS.CIRCLE_STATE.fill = e.color;                
+                EditorManager.CONSTANTS.CIRCLE_STATE.fill = e.color;              
                 if (instance.get(SELECTED_SHAPE) && instance.get(SELECTED_SHAPE).type != EditorManager.CONSTANTS.PATH
                 	&& instance.get(SELECTED_SHAPE).type != EditorManager.CONSTANTS.TEXT) {
-                    instance.get(SELECTED_SHAPE).fill = e.color;
+                    instance.get(SELECTED_SHAPE).set('fill', e.color);
                     instance.get(SELECTED_SHAPE).fire('modified');
                     instance.get(CANVAS).renderAll();
                 }
