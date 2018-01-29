@@ -33,6 +33,8 @@ YUI.add('whiteboard', function (Y, NAME) {
 	var SELECTOR_FREE = '.free';
 	var SELECTOR_CLEAN = '.clean';
 	var SELECTOR_DROPDOWN = '.dropdown-menu';
+    var SELECTOR_DROPDOWN_WRAPPER = '.dropdown-menu-wrapper';
+
     
     var EditorManager = Y.Base.create('whiteboard', Y.Base, [Y.TextEditor], {
         
@@ -59,26 +61,26 @@ YUI.add('whiteboard', function (Y, NAME) {
                 
                 if (instance.get(SELECTED_SHAPE)){
                 	if (instance.get(SELECTED_SHAPE).type != EditorManager.CONSTANTS.TEXT){
-                		instance.get(SELECTED_SHAPE).stroke = e.color;
+                		instance.get(SELECTED_SHAPE).set('stroke', e.color);
                 	}
                 	else{
-                		instance.get(SELECTED_SHAPE).fill = e.color;
+                		instance.get(SELECTED_SHAPE).set('fill', e.color);
                 	}
                     instance.get(SELECTED_SHAPE).fire('modified');
                     instance.get(CANVAS).renderAll();
                 }
                 if (instance.get(CANVAS).isDrawingMode){
-            		instance.get(CANVAS).freeDrawingBrush.color = e.color;
+            		instance.get(CANVAS).freeDrawingBrush.set('fill', e.color);
             	}
             });
             
             var fillColorPicker = new Y.ColorPicker({container: this.get(CONTAINER).one('.color-picker.fill')});
             fillColorPicker.on('color-picker:change', function(e) {
                 EditorManager.CONSTANTS.RECTANGLE_STATE.fill = e.color;
-                EditorManager.CONSTANTS.CIRCLE_STATE.fill = e.color;                
+                EditorManager.CONSTANTS.CIRCLE_STATE.fill = e.color;              
                 if (instance.get(SELECTED_SHAPE) && instance.get(SELECTED_SHAPE).type != EditorManager.CONSTANTS.PATH
                 	&& instance.get(SELECTED_SHAPE).type != EditorManager.CONSTANTS.TEXT) {
-                    instance.get(SELECTED_SHAPE).fill = e.color;
+                    instance.get(SELECTED_SHAPE).set('fill', e.color);
                     instance.get(SELECTED_SHAPE).fire('modified');
                     instance.get(CANVAS).renderAll();
                 }
@@ -110,23 +112,26 @@ YUI.add('whiteboard', function (Y, NAME) {
             
             menu.one(SELECTOR_OPTIONS).on('click', function (e) {
                 this.toggleClass('selected');
-                this.one(SELECTOR_DROPDOWN).toggleClass('show');
+                this.ancestor(SELECTOR_DROPDOWN_WRAPPER).one(SELECTOR_DROPDOWN).toggleClass('show');
             });
             
-            menu.one(SELECTOR_OPTIONS).delegate('click', function() {
+            menu.delegate('click', function () {
                 var action = this.getAttribute('data-action');
-                switch(action) {
-                    case 'send-to-back': 
+                switch (action) {
+                    case 'send-to-back':
                         if (instance.get(SELECTED_SHAPE)) {
                             instance.get(SELECTED_SHAPE).sendToBack();
+                            instance.get(SELECTED_SHAPE).fire('afterSendToBack');
                         }
                         break;
-                    case 'bring-to-front': 
+                    case 'bring-to-front':
                         if (instance.get(SELECTED_SHAPE)) {
                             instance.get(SELECTED_SHAPE).bringToFront();
+                            instance.get(SELECTED_SHAPE).fire('afterBringToFront');
                         }
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
             }, '[data-action]');
             
@@ -136,7 +141,8 @@ YUI.add('whiteboard', function (Y, NAME) {
                     return;
                 }
                 menu.one(SELECTOR_OPTIONS).removeClass('selected');
-                menu.one(SELECTOR_OPTIONS).one(SELECTOR_DROPDOWN).removeClass('show');
+                //menu.one(SELECTOR_OPTIONS).one(SELECTOR_DROPDOWN).removeClass('show');
+                menu.one(SELECTOR_OPTIONS).ancestor(SELECTOR_DROPDOWN_WRAPPER).one(SELECTOR_DROPDOWN).removeClass('show');
             });
             
             /* delete button */

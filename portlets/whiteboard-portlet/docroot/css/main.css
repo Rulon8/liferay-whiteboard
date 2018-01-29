@@ -106,9 +106,21 @@
     background: none !important;
 }
 
+.whiteboard-portlet .editor menu .dropdown-menu-wrapper {
+    position: relative;
+}
+
+.whiteboard-portlet .editor menu .dropdown-menu-wrapper button {
+    border-radius: 0;
+}
+
 .whiteboard-portlet .editor menu button .dropdown-menu {
     left: 100%;
     top: 0;
+}
+
+.whiteboard-portlet .editor .dropdown-menu > li > a {
+    font-size: 12px;
 }
 
 .whiteboard-portlet .editor menu button[data-shape="rectangle"] span,
