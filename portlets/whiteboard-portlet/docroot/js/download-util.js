@@ -30,18 +30,20 @@ YUI.add('download-util', function (Y, NAME) {
                 centered: true,
                 destroyOnHide: true,
                 headerContent: Liferay.Language.get('rivetlogic.whiteboard.download.downloadaction'),
-                //height: 200,
                 modal: true,
                 render: 'body',
                 resizable: {
                     handles: 'b, r'
                 },
                 visible: true,
-                zIndex: 9999
-                //width: 450
+                zIndex: 9999,
+                cssClass: 'download-canvas-modal'
             }).render();
+
+            //Set canvas background color to save without transparency
+            canvas.backgroundColor = 'white';
             
-            var imageData = canvas.toDataURL({format: 'png', multiplier: 4});
+            var imageData = canvas.toDataURL({format: 'jpeg',multiplier: 4});
             EditorDownload._addImg(imageData, modal);
             
             modal.align();
@@ -60,8 +62,8 @@ YUI.add('download-util', function (Y, NAME) {
                     click: function() {
                         var anchor = Y.Node.create('<a/>');
                         anchor.setAttribute('target', '_blank');
-                        anchor.setAttribute('download', 'whiteboard-image.png');
-                        anchor.setAttribute('href', imageData)
+                        anchor.setAttribute('download', 'whiteboard-image.jpeg');
+                        anchor.setAttribute('href', imageData);
                         anchor.simulate('click');
                     }
                 }

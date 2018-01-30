@@ -3,22 +3,57 @@
 /* users online list */
 @include respond-to(phone, tablet) {
     
-    .aui .whiteboard-portlet .users-online {
-        .expand-collapse-btn {
-            display: block;
-            
-            &.selected {
-                background: #D3D3D3;
+    .aui .whiteboard-portlet {
+        label {
+            margin: 0;
+        }
+        .editor {
+            menu {
+                margin: 0;
             }
         }
-        .users-online-wrapper {
-            display: none;
-            
-            &.show {
+        .users-online {
+            .expand-collapse-btn {
                 display: block;
+                
+                &.selected {
+                    background: #D3D3D3;
+                }
+            }
+            .users-online-wrapper {
+                display: none;
+                
+                &.show {
+                    display: block;
+                }
             }
         }
-        
-    } 
-
+    }
+    .download-canvas-modal {
+        top: 10px !important;
+        left: 2% !important;
+        right: 2%;
+        width: 96%;
+    }
+}
+@include respond-to(phone) {
+    .aui .whiteboard-portlet {
+        .color-picker {
+            .sliders {
+                clear: both;
+            }
+            .color {
+                position: absolute;
+                top: 15px;
+                right: 0;
+            }
+            .color-picker-container {
+                width: 260px;
+                height: 270px;
+                left: 0px;
+                top: 70px;
+                z-index: 1;
+            }
+        }
+    }
 }
