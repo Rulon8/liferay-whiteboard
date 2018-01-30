@@ -29,24 +29,21 @@ AUI().use('multiuser-whiteboard', function(A) {
     	var SPACE = ' ';
     	var DASH = '-';
 
-    	    //var containerWidth = A.one(SELECTOR_WHITEBOARD_PORTLET + SPACE + SELECTOR_EDITOR).get('offsetWidth');
-    	    //A.one(SELECTOR_WHITEBOARD_PORTLET + SPACE + SELECTOR_CANVAS).setAttribute('width', containerWidth);
 
-    	    var containerWidth = Math.round((70 * window.innerWidth) / 100);
+        var containerWidth = A.one(SELECTOR_WHITEBOARD_PORTLET + SPACE + SELECTOR_EDITOR).width();
         var canvas = new fabric.Canvas(CANVAS_NAME, {
-        		width: containerWidth,
-        		height: 600
-        	});
+            width: containerWidth,
+            height: 600
+        });
         canvas.renderAll();
         canvas.calcOffset();
 
         A.on(['orientationchange', 'resize'], function(e) {
-            //containerWidth = A.one(SELECTOR_WHITEBOARD_PORTLET + SPACE + SELECTOR_EDITOR).get('offsetWidth');
-        	    containerWidth = Math.round((70 * window.innerWidth) / 100);
+            containerWidth = A.one(SELECTOR_WHITEBOARD_PORTLET + SPACE + SELECTOR_EDITOR).width();
             canvas.setDimensions({
-            		width: containerWidth,
-            		height: 600
-            	});
+                width: containerWidth,
+                height: 600
+            });
 
             canvas.renderAll();
             canvas.calcOffset();
